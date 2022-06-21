@@ -42,6 +42,7 @@ class Hasher:
         salt = client_creds[1]
         txnid = params.get("txnid")
         amount = params.get("amount")
+        status = params.get("status")
         productinfo = params.get("productinfo")
         firstname = params.get("firstname")
         email = params.get("email", "default")
@@ -53,9 +54,9 @@ class Hasher:
 
         if params.get("additional_charges") is True:
             additional_charges = params.get("additional_charges")
-            validate_hash_sequence = f"{additional_charges}|{salt}||||||{udf5}|{udf4}|{udf3}|{udf2}|{udf1}|{email}|{firstname}|{productinfo}|{amount}|{txnid}|{key}"
+            validate_hash_sequence = f"{additional_charges}|{salt}|{status}||||||{udf5}|{udf4}|{udf3}|{udf2}|{udf1}|{email}|{firstname}|{productinfo}|{amount}|{txnid}|{key}"
         else:
-            validate_hash_sequence = f"{salt}||||||{udf5}|{udf4}|{udf3}|{udf2}|{udf1}|{email}|{firstname}|{productinfo}|{amount}|{txnid}|{key}"
+            validate_hash_sequence = f"{salt}|{status}||||||{udf5}|{udf4}|{udf3}|{udf2}|{udf1}|{email}|{firstname}|{productinfo}|{amount}|{txnid}|{key}"
 
         validate_hash = hashlib.sha512((validate_hash_sequence).encode('utf-8')).hexdigest().lower()
         return validate_hash
